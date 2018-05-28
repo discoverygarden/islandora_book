@@ -5,6 +5,8 @@
  * Defines all the hooks this module implements.
  */
 
+use Drupal\Core\Form\FormStateInterface;
+
 function islandora_book_menu() {
 return array(
     'islandora/object/%islandora_object/pages' => array(
@@ -226,7 +228,7 @@ function islandora_book_islandora_bookcmodel_islandora_solr_object_result_alter(
 /**
  * Implements hook_islandora_ingest_steps().
  */
-function islandora_book_islandora_pagecmodel_islandora_ingest_steps(array $form_state) {
+function islandora_book_islandora_pagecmodel_islandora_ingest_steps(FormStateInterface $form_state) {
   $shared_storage = islandora_ingest_form_get_shared_storage($form_state);
   if (empty($shared_storage['book'])) {
     return;
@@ -235,10 +237,8 @@ function islandora_book_islandora_pagecmodel_islandora_ingest_steps(array $form_
     'islandora_book_upload_pages' => [
       'weight' => 10,
       'type' => 'form',
-      'form_id' => 'islandora_paged_content_upload_page_form',
+      'form_class' => 'Drupal\islandora_paged_content\Form\UploadPage',
       'args' => [$shared_storage['book']],
-      'module' => 'islandora_paged_content',
-      'file' => 'includes/upload_page.form.inc',
     ],
   ];
 }
@@ -246,17 +246,15 @@ function islandora_book_islandora_pagecmodel_islandora_ingest_steps(array $form_
 /**
  * Implements hook_CMODEL_PID_islandora_ingest_steps().
  */
-function islandora_book_islandora_bookcmodel_islandora_ingest_steps(array $form_state) {
+function islandora_book_islandora_bookcmodel_islandora_ingest_steps(FormStateInterface $form_state) {
   module_load_include('inc', 'islandora_paged_content', 'includes/utilities');
   if (islandora_paged_content_can_extract_from_pdf()) {
     return [
       'islandora_book_upload_pdf' => [
         'weight' => 10,
         'type' => 'form',
-        'form_id' => 'islandora_paged_content_upload_pdf_form',
+        'form_class' => 'Drupal\islandora_paged_content\Form\UploadPdf',
         'args' => ['islandora:pageCModel'],
-        'module' => 'islandora_paged_content',
-        'file' => 'includes/upload_pdf.form.inc',
       ],
     ];
   }
