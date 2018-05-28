@@ -1,0 +1,3 @@
+islandora_book_ingest_derivatives: ['pdf', 'image', 'ocr']
+islandora_book_parent_book_solr_field: 'RELS_EXT_isMemberOf_uri_ms'
+islandora_book_metadata_display: false

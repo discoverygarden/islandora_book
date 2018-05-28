@@ -1,0 +1,5 @@
+islandora_book.admin:
+  route_name: islandora_book.admin
+  parent: islandora.solution_packs_admin
+  title: 'Book Solution Pack'
+  description: 'Select viewers and configure ingest behavior.'

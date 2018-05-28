@@ -1,0 +1,10 @@
+islandora_book.settings:
+  type: mapping
+  label: Settings
+  mapping:
+    islandora_book_ingest_derivatives:
+      type: sequence
+    islandora_book_parent_book_solr_field:
+      type: string
+    islandora_book_metadata_display:
+      type: boolean

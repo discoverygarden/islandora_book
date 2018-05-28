@@ -1,0 +1,7 @@
+islandora_book.admin:
+  path: '/admin/config/islandora/solution_pack_config/book'
+  defaults:
+    _title: 'Book Solution Pack'
+    _form: '\Drupal\islandora_book\Form\Admin'
+  requirements:
+    _permission: 'administer site configuration'

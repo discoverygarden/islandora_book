@@ -4,32 +4,12 @@
  * @file
  * Defines all the hooks this module implements.
  */
-
-/**
- * @FIXME
- * This implementation of hook_menu() cannot be automatically converted because
- * it contains logic (i.e., branching statements, function calls, object
- * instantiation, etc.) You will need to convert it manually. Sorry!
- *
- * For more information on how to convert hook_menu() to Drupal 8's new routing
- * and linking systems, see https://api.drupal.org/api/drupal/core%21includes%21menu.inc/group/menu/8
- */
-
 function islandora_book_menu() {
   // @FIXME
 // Could not extract the default value because it is either indeterminate, or
 // not scalar. You'll need to provide a default value in
 // config/install/islandora_book.settings.yml and config/schema/islandora_book.schema.yml.
 return array(
-    'admin/islandora/solution_pack_config/book' => array(
-      'title' => 'Book Solution Pack',
-      'description' => 'Select viewers and configure ingest behavior.',
-      'page callback' => 'drupal_get_form',
-      'page arguments' => array('islandora_book_admin_settings_form'),
-      'access arguments' => array('administer site configuration'),
-      'file' => 'includes/admin.form.inc',
-      'type' => MENU_NORMAL_ITEM,
-    ),
     'islandora/object/%islandora_object/pages' => array(
       'title' => 'Pages',
       'type' => MENU_LOCAL_TASK,
@@ -200,8 +180,8 @@ function islandora_book_islandora_bookcmodel_islandora_view_object($object) {
 // Calling _theme() directly can alter the expected output and potentially
 // introduce security issues (see https://www.drupal.org/node/2195739). You
 // should use renderable arrays instead.
-// 
-// 
+//
+//
 // @see https://www.drupal.org/node/2195739
 // $output = theme('islandora_book_book', array('object' => $object));
 
@@ -217,8 +197,8 @@ function islandora_book_islandora_pagecmodel_islandora_view_object($object, $pag
 // Calling _theme() directly can alter the expected output and potentially
 // introduce security issues (see https://www.drupal.org/node/2195739). You
 // should use renderable arrays instead.
-// 
-// 
+//
+//
 // @see https://www.drupal.org/node/2195739
 // $output = theme('islandora_book_page', array('object' => $object));
 
@@ -384,8 +364,8 @@ function islandora_book_pages_menu(AbstractObject $object) {
 // Calling _theme() directly can alter the expected output and potentially
 // introduce security issues (see https://www.drupal.org/node/2195739). You
 // should use renderable arrays instead.
-// 
-// 
+//
+//
 // @see https://www.drupal.org/node/2195739
 // return theme('islandora_objects', array('objects' => array_keys($pages)));
 
@@ -434,8 +414,8 @@ function islandora_book_islandora_view_print_object($object) {
 // Calling _theme() directly can alter the expected output and potentially
 // introduce security issues (see https://www.drupal.org/node/2195739). You
 // should use renderable arrays instead.
-// 
-// 
+//
+//
 // @see https://www.drupal.org/node/2195739
 // $islandora_content = theme('image', array(
 //       'title' => $object->label,
@@ -447,8 +427,8 @@ function islandora_book_islandora_view_print_object($object) {
 // Calling _theme() directly can alter the expected output and potentially
 // introduce security issues (see https://www.drupal.org/node/2195739). You
 // should use renderable arrays instead.
-// 
-// 
+//
+//
 // @see https://www.drupal.org/node/2195739
 // return theme('islandora_book_page_img_print', array(
 //       'islandora_content' => $islandora_content,
