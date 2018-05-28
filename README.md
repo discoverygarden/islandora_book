@@ -1,4 +1,4 @@
-# Book Solution Pack [![Build Status](https://travis-ci.org/Islandora/islandora_solution_pack_book.png?branch=7.x)](https://travis-ci.org/Islandora/islandora_solution_pack_book)
+# Book Solution Pack
 
 ## Introduction
 
