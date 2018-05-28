@@ -15,7 +15,7 @@
  *   The HTML representation of the ingest page form.
  */
 function islandora_book_ingest_page(AbstractObject $object) {
-  global $user;
+  $user = \Drupal::currentUser();
   module_load_include('inc', 'islandora', 'includes/breadcrumb');
   drupal_set_breadcrumb(islandora_get_breadcrumbs($object));
   module_load_include('inc', 'islandora', 'includes/utilities');
@@ -25,8 +25,15 @@ function islandora_book_ingest_page(AbstractObject $object) {
   $page->owner = $user->name;
   $page->label = 'New Page';
   $page->models = 'islandora:pageCModel';
-  drupal_set_title(t('Add page to @book', array('@book' => $object->label)));
-  return drupal_get_form('islandora_ingest_form', array(
+  // @FIXME
+// drupal_set_title() has been removed. There are now a few ways to set the title
+// dynamically, depending on the situation.
+// 
+// 
+// @see https://www.drupal.org/node/2067859
+// drupal_set_title(t('Add page to @book', array('@book' => $object->label)));
+
+  return \Drupal::formBuilder()->getForm('islandora_ingest_form', array(
     'book' => $object,
     'models' => array('islandora:pageCModel'),
     'objects' => array($page),
@@ -47,7 +54,7 @@ function islandora_book_ingest_zipped_pages(AbstractObject $object) {
   module_load_include('inc', 'islandora', 'includes/breadcrumb');
   module_load_include('inc', 'islandora', 'includes/utilities');
   drupal_set_breadcrumb(islandora_get_breadcrumbs($object));
-  return drupal_get_form('islandora_book_zipped_upload_form', $object->id);
+  return \Drupal::formBuilder()->getForm('islandora_book_zipped_upload_form', $object->id);
 }
 
 /**
@@ -71,11 +78,15 @@ function islandora_book_zipped_upload_form(array $form, array &$form_state, $boo
   $upload_size = min((int) ini_get('post_max_size'), (int) ini_get('upload_max_filesize'));
   $extensions = array('zip');
   $form = array();
-  $derivatives = variable_get('islandora_book_ingest_derivatives', array('ocr'));
+  // @FIXME
+// Could not extract the default value because it is either indeterminate, or
+// not scalar. You'll need to provide a default value in
+// config/install/islandora_book.settings.yml and config/schema/islandora_book.schema.yml.
+$derivatives = \Drupal::config('islandora_book.settings')->get('islandora_book_ingest_derivatives');
   $message = t("This sequence currently has @count pages. Additional pages will be appended to the end of the sequence by default. !break", array("@count" => $last_page_number, '!break' => '<br />'));
   $message .= t("Choose a number lower than @count to insert page(s) at a specific location in the sequence.", array("@count" => $last_page_number, '!break' => '<br />'));
 
-  if (module_exists('islandora_ocr') && in_array('ocr', $derivatives)) {
+  if (\Drupal::moduleHandler()->moduleExists('islandora_ocr') && in_array('ocr', $derivatives)) {
     module_load_include('inc', 'islandora_ocr', 'includes/utilities');
     $form['language'] = array(
       '#title' => t('Language'),
@@ -92,7 +103,7 @@ function islandora_book_zipped_upload_form(array $form, array &$form_state, $boo
       '#type' => 'textfield',
       '#title' => t('Last sequence number'),
       '#default_value' => $last_page_number,
-      '#description' => check_plain($message),
+      '#description' => \Drupal\Component\Utility\Html::escape($message),
       '#size' => 5,
     );
   }
@@ -160,10 +171,10 @@ function islandora_book_zipped_upload_form_submit(array $form, array &$form_stat
   }
   // Extract file.
   $zip_file = file_load($form_state['values']['file']);
-  $zip_uri = drupal_realpath($zip_file->uri);
+  $zip_uri = \Drupal::service("file_system")->realpath($zip_file->uri);
   $zip = new ZipArchive();
   $zip->open($zip_uri);
-  $destination_dir = drupal_realpath("temporary://$tmp_dir");
+  $destination_dir = \Drupal::service("file_system")->realpath("temporary://$tmp_dir");
 
   // Extract zipped file to named directory.
   if (!$zip->extractTo($destination_dir)) {
@@ -176,7 +187,7 @@ function islandora_book_zipped_upload_form_submit(array $form, array &$form_stat
   $allowed_extensions = array('tif', 'tiff', 'jpg', 'jpeg', 'jp2');
   $callback = function ($element) use ($allowed_extensions) {
     $ext = pathinfo($element, PATHINFO_EXTENSION);
-    $ext = drupal_strtolower($ext);
+    $ext = \Drupal\Component\Utility\Unicode::strtolower($ext);
 
     // An allowed extension and does /not/ contain __MACOSX.
     return in_array($ext, $allowed_extensions) && preg_match('/__MACOSX/', $element) === 0;
@@ -197,14 +208,14 @@ function islandora_book_zipped_upload_form_submit(array $form, array &$form_stat
 
   $renumber_count = count($pages_to_renumber);
   $add_count = count($files_to_add);
-  $status_message = format_plural(
+  $status_message = \Drupal::translation()->formatPlural(
     $add_count,
     'adding 1 page to book',
     'adding @count pages to book'
   );
 
   if ($renumber_count) {
-    $status_message = format_plural(
+    $status_message = \Drupal::translation()->formatPlural(
       $renumber_count,
       'Renumbering 1 page and @adding_message.',
       'Renumbering @count pages and @adding_message.',
@@ -280,7 +291,7 @@ function islandora_book_add_pages($repository, $config, $pages_directory, &$cont
   $rels_ext = $object->relationships;
   $parent = $config['book_pid'];
   $object->relationships->add(FEDORA_MODEL_URI, 'hasModel', 'islandora:pageCModel');
-  if (module_exists('islandora_ocr')) {
+  if (\Drupal::moduleHandler()->moduleExists('islandora_ocr')) {
     module_load_include('inc', 'islandora_ocr', 'includes/derivatives');
     islandora_ocr_set_generating_rels_ext_statements($object, !$config['ignored_derivs']['ocr'], !$config['ignored_derivs']['hocr']);
   }

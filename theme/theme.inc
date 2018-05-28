@@ -19,8 +19,24 @@ function template_preprocess_islandora_book_book(array &$variables) {
   module_load_include('inc', 'islandora', 'includes/solution_packs');
   module_load_include('inc', 'islandora', 'includes/metadata');
   module_load_include('inc', 'islandora', 'includes/datastream');
-  drupal_add_js('misc/form.js');
-  drupal_add_js('misc/collapse.js');
+  // @FIXME
+// The Assets API has totally changed. CSS, JavaScript, and libraries are now
+// attached directly to render arrays using the #attached property.
+// 
+// 
+// @see https://www.drupal.org/node/2169605
+// @see https://www.drupal.org/node/2408597
+// drupal_add_js('misc/form.js');
+
+  // @FIXME
+// The Assets API has totally changed. CSS, JavaScript, and libraries are now
+// attached directly to render arrays using the #attached property.
+// 
+// 
+// @see https://www.drupal.org/node/2169605
+// @see https://www.drupal.org/node/2408597
+// drupal_add_js('misc/collapse.js');
+
 
   $object = $variables['object'];
 
@@ -31,7 +47,7 @@ function template_preprocess_islandora_book_book(array &$variables) {
     'page_progression' => islandora_paged_content_get_page_progression($object),
   );
 
-  $variables['display_metadata'] = variable_get('islandora_book_metadata_display', FALSE);
+  $variables['display_metadata'] = \Drupal::config('islandora_book.settings')->get('islandora_book_metadata_display');
   $variables['parent_collections'] = islandora_get_parents_from_rels_ext($object);
   $variables['metadata'] = islandora_retrieve_metadata_markup($object);
   $variables['description'] = islandora_retrieve_description_markup($object);
@@ -83,10 +99,13 @@ function template_preprocess_islandora_book_page(array &$variables) {
     // Always use token authentication in case there is a global policy.
     module_load_include('inc', 'islandora', 'includes/authtokens');
     $token = islandora_get_object_token($object->id, 'JP2', 2);
-    $jp2_url = url("islandora/object/{$object->id}/datastream/JP2/view", array(
-      'absolute' => TRUE,
-      'query' => array('token' => $token),
-    ));
+    // @FIXME
+// url() expects a route name or an external URI.
+// $jp2_url = url("islandora/object/{$object->id}/datastream/JP2/view", array(
+//       'absolute' => TRUE,
+//       'query' => array('token' => $token),
+//     ));
+
     $params['token'] = $token;
     $params['pid'] = $object->id;
     $params['dsid'] = 'JP2';

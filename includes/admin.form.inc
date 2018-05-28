@@ -18,7 +18,12 @@
  */
 function islandora_book_admin_settings_form(array $form, array &$form_state) {
   $get_default_value = function($name, $default) use(&$form_state) {
-    return isset($form_state['values'][$name]) ? $form_state['values'][$name] : variable_get($name, $default);
+    // @FIXME
+// // @FIXME
+// // The correct configuration object could not be determined. You'll need to
+// // rewrite this call manually.
+// return isset($form_state['values'][$name]) ? $form_state['values'][$name] : variable_get($name, $default);
+
   };
   $form = array(
     'local_derivative_settings' => array(
@@ -36,8 +41,8 @@ function islandora_book_admin_settings_form(array $form, array &$form_state) {
           'image' => t('Image datastreams (TN, JPEG, JP2). <b>Requires</b> <i>Large Image Solution Pack</i>'),
           'ocr' => t('OCR datastreams (OCR, HOCR). <b>Requires</b> <i>Islandora OCR module</i>'),
         ),
-        '#default_value' => $get_default_value('islandora_book_ingest_derivatives', drupal_map_assoc(
-                            array('pdf', 'image', 'ocr'))),
+        '#default_value' => $get_default_value('islandora_book_ingest_derivatives', array_combine(
+                            array('pdf', 'image', 'ocr'), array('pdf', 'image', 'ocr'))),
       ),
     ),
   );
@@ -47,7 +52,7 @@ function islandora_book_admin_settings_form(array $form, array &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Parent Solr Field'),
     '#description' => t("Solr field containing the parent book's PID."),
-    '#default_value' => variable_get('islandora_book_parent_book_solr_field', 'RELS_EXT_isMemberOf_uri_ms'),
+    '#default_value' => \Drupal::config('islandora_book.settings')->get('islandora_book_parent_book_solr_field'),
     '#size' => 30,
   );
 
@@ -61,7 +66,7 @@ function islandora_book_admin_settings_form(array $form, array &$form_state) {
     '#type' => 'checkbox',
     '#title' => t("Display object metadata"),
     '#description' => t("Display object metadata below object viewer."),
-    '#default_value' => variable_get('islandora_book_metadata_display', FALSE),
+    '#default_value' => \Drupal::config('islandora_book.settings')->get('islandora_book_metadata_display'),
   );
 
   module_load_include('inc', 'islandora', 'includes/solution_packs');
@@ -94,17 +99,17 @@ function islandora_book_admin_settings_form_ingest_derivatives_validate(array $e
   // drupal_set_message().
   if (array_key_exists('pdf', $element['#value']) && !islandora_paged_content_can_create_pdf()) {
     $element['#value']['pdf'] = 0;
-    form_set_value($element, $element['#value'], $form_state);
+    $form_state->setValueForElement($element, $element['#value']);
     drupal_set_message(t('ImageMagick must be enabled to derive the PDF datastream.'), 'error');
   }
   if (array_key_exists('image', $element['#value']) && !islandora_paged_content_can_create_images()) {
     $element['#value']['image'] = 0;
-    form_set_value($element, $element['#value'], $form_state);
+    $form_state->setValueForElement($element, $element['#value']);
     drupal_set_message(t('The Large Image Solution Pack must be enabled to derive image datastreams.'), 'error');
   }
-  if (array_key_exists('ocr', $element['#value']) && !(module_exists('islandora_ocr'))) {
+  if (array_key_exists('ocr', $element['#value']) && !(\Drupal::moduleHandler()->moduleExists('islandora_ocr'))) {
     $element['#value']['ocr'] = 0;
-    form_set_value($element, $element['#value'], $form_state);
+    $form_state->setValueForElement($element, $element['#value']);
     drupal_set_message(t('The Islandora OCR module must be enabled to derive OCR datastreams.'), 'error');
   }
 }
