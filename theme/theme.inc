@@ -19,33 +19,15 @@ function template_preprocess_islandora_book_book(array &$variables) {
   module_load_include('inc', 'islandora', 'includes/solution_packs');
   module_load_include('inc', 'islandora', 'includes/metadata');
   module_load_include('inc', 'islandora', 'includes/datastream');
-  // @FIXME
-// The Assets API has totally changed. CSS, JavaScript, and libraries are now
-// attached directly to render arrays using the #attached property.
-// 
-// 
-// @see https://www.drupal.org/node/2169605
-// @see https://www.drupal.org/node/2408597
-// drupal_add_js('misc/form.js');
-
-  // @FIXME
-// The Assets API has totally changed. CSS, JavaScript, and libraries are now
-// attached directly to render arrays using the #attached property.
-// 
-// 
-// @see https://www.drupal.org/node/2169605
-// @see https://www.drupal.org/node/2408597
-// drupal_add_js('misc/collapse.js');
-
 
   $object = $variables['object'];
 
   $variables['viewer_id'] = islandora_get_viewer_id('islandora_book_viewers');
-  $variables['viewer_params'] = array(
+  $variables['viewer_params'] = [
     'object' => $object,
     'pages' => islandora_paged_content_get_pages($object),
     'page_progression' => islandora_paged_content_get_page_progression($object),
-  );
+  ];
 
   $variables['display_metadata'] = \Drupal::config('islandora_book.settings')->get('islandora_book_metadata_display');
   $variables['parent_collections'] = islandora_get_parents_from_rels_ext($object);
@@ -93,7 +75,7 @@ function template_preprocess_islandora_book_page(array &$variables) {
   $result = reset($results);
   $variables['book_object_id'] = $result ? $result['object']['value'] : FALSE;
 
-  $params = array();
+  $params = [];
   if (isset($object['JP2']) && islandora_datastream_access(ISLANDORA_VIEW_OBJECTS, $object['JP2'])) {
     // Get token to allow access to XACML protected datastreams.
     // Always use token authentication in case there is a global policy.

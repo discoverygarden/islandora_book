@@ -4,11 +4,8 @@
  * @file
  * Defines all the hooks this module implements.
  */
+
 function islandora_book_menu() {
-  // @FIXME
-// Could not extract the default value because it is either indeterminate, or
-// not scalar. You'll need to provide a default value in
-// config/install/islandora_book.settings.yml and config/schema/islandora_book.schema.yml.
 return array(
     'islandora/object/%islandora_object/pages' => array(
       'title' => 'Pages',
@@ -70,38 +67,35 @@ return array(
  * Implements hook_theme().
  */
 function islandora_book_theme() {
-  return array(
-    'islandora_book_book' => array(
-      'variables' => array('object' => NULL),
+  return [
+    'islandora_book_book' => [
+      'variables' => ['object' => NULL],
       'file' => 'theme/theme.inc',
-      'template' => 'theme/islandora-book-book',
-    ),
-    'islandora_book_page' => array(
-      'arguments' => array('object' => NULL),
+    ],
+    'islandora_book_page' => [
+      'arguments' => ['object' => NULL],
       'file' => 'theme/theme.inc',
-      'template' => 'theme/islandora-book-page',
-    ),
-    'islandora_book_page_img_print' => array(
-      'template' => 'theme/islandora-book-page-img-print',
-      'variables' => array('islandora_content' => NULL),
-    ),
-  );
+    ],
+    'islandora_book_page_img_print' => [
+      'variables' => ['islandora_content' => NULL],
+    ],
+  ];
 }
 
 /**
  * Implements hook_xml_form_builder_form_associations().
  */
 function islandora_book_xml_form_builder_form_associations() {
-  return array(
-    'islandora_book_mods_form' => array(
+  return [
+    'islandora_book_mods_form' => [
       'content_model' => 'islandora:bookCModel',
       'form_name' => 'Islandora Book MODS Form',
       'dsid' => 'MODS',
-      'title_field' => array('titleInfo', 'title'),
+      'title_field' => ['titleInfo', 'title'],
       'transform' => 'mods_to_dc.xsl',
       'template' => FALSE,
-    ),
-  );
+    ],
+  ];
 }
 
 /**
@@ -109,7 +103,7 @@ function islandora_book_xml_form_builder_form_associations() {
  */
 function islandora_book_xml_form_builder_forms() {
   $module_path = drupal_get_path('module', 'islandora_book');
-  return array('Islandora Book MODS Form' => array('form_file' => "$module_path/data/forms/book_form_mods.xml"));
+  return ['Islandora Book MODS Form' => ['form_file' => "$module_path/data/forms/book_form_mods.xml"]];
 }
 
 /**
@@ -159,50 +153,40 @@ function islandora_book_islandora_required_objects(IslandoraTuque $connection) {
   $datastream->mimetype = 'image/png';
   $datastream->setContentFromFile("$module_path/images/folder.png", FALSE);
   $book_collection->ingestDatastream($datastream);
-  return array(
-    'islandora_book' => array(
+  return [
+    'islandora_book' => [
       'title' => 'Islandora book',
-      'objects' => array(
+      'objects' => [
         $page_content_model,
         $book_content_model,
         $book_collection,
-      ),
-    ),
-  );
+      ],
+    ],
+  ];
 }
 
 /**
  * Implements hook_CMODEL_PID_islandora_view_object().
  */
 function islandora_book_islandora_bookcmodel_islandora_view_object($object) {
-  // @FIXME
-// theme() has been renamed to _theme() and should NEVER be called directly.
-// Calling _theme() directly can alter the expected output and potentially
-// introduce security issues (see https://www.drupal.org/node/2195739). You
-// should use renderable arrays instead.
-//
-//
-// @see https://www.drupal.org/node/2195739
-// $output = theme('islandora_book_book', array('object' => $object));
-
-  return array('islandora_book' => $output);
+  return [
+    'islandora_book' => [
+      '#theme' => 'islandora_book_book',
+      '#object' => $object,
+    ],
+  ];
 }
 
 /**
  * Implements hook_CMODEL_PID_islandora_view_object().
  */
 function islandora_book_islandora_pagecmodel_islandora_view_object($object, $page_number, $page_size) {
-  // @FIXME
-// theme() has been renamed to _theme() and should NEVER be called directly.
-// Calling _theme() directly can alter the expected output and potentially
-// introduce security issues (see https://www.drupal.org/node/2195739). You
-// should use renderable arrays instead.
-//
-//
-// @see https://www.drupal.org/node/2195739
-// $output = theme('islandora_book_page', array('object' => $object));
-
-  return array('islandora_book' => $output);
+  return [
+    'islandora_book' => [
+      '#theme' => 'islandora_book_page',
+      '#object' => $object,
+    ],
+  ];
 }
 
 /**
@@ -211,12 +195,12 @@ function islandora_book_islandora_pagecmodel_islandora_view_object($object, $pag
  * Add page viewing fragment and search term to show all search results within
  * book on page load.
  */
-function islandora_book_islandora_bookCModel_islandora_solr_object_result_alter(&$search_results, $query_processor) {
-  $view_types = array(
+function islandora_book_islandora_bookcmodel_islandora_solr_object_result_alter(&$search_results, $query_processor) {
+  $view_types = [
     "1" => "1up",
     "2" => "2up",
     "3" => "thumb",
-  );
+  ];
   $field_search = FALSE;
   $fields = preg_split('/OR|AND|NOT/', $query_processor->solrQuery);
   foreach ($fields as $field) {
@@ -227,10 +211,9 @@ function islandora_book_islandora_bookCModel_islandora_solr_object_result_alter(
   }
 
   if ($query_processor->solrQuery != " " && $query_processor->solrQuery && !$field_search) {
-    // @FIXME
-// // @FIXME
-// // This looks like another module's variable. You'll need to rewrite this call
-// // to ensure that it uses the correct configuration object.
+// @FIXME
+// This looks like another module's variable. You'll need to rewrite this call
+// to ensure that it uses the correct configuration object.
 // $ia_view = variable_get('islandora_internet_archive_bookreader_default_page_view', "1");
 
     if ($query_processor->solrQuery != '*:*') {
@@ -248,34 +231,34 @@ function islandora_book_islandora_pagecmodel_islandora_ingest_steps(array $form_
   if (empty($shared_storage['book'])) {
     return;
   }
-  return array(
-    'islandora_book_upload_pages' => array(
+  return [
+    'islandora_book_upload_pages' => [
       'weight' => 10,
       'type' => 'form',
       'form_id' => 'islandora_paged_content_upload_page_form',
-      'args' => array($shared_storage['book']),
+      'args' => [$shared_storage['book']],
       'module' => 'islandora_paged_content',
       'file' => 'includes/upload_page.form.inc',
-    ),
-  );
+    ],
+  ];
 }
 
 /**
  * Implements hook_CMODEL_PID_islandora_ingest_steps().
  */
-function islandora_book_islandora_bookCModel_islandora_ingest_steps(array $form_state) {
+function islandora_book_islandora_bookcmodel_islandora_ingest_steps(array $form_state) {
   module_load_include('inc', 'islandora_paged_content', 'includes/utilities');
   if (islandora_paged_content_can_extract_from_pdf()) {
-    return array(
-      'islandora_book_upload_pdf' => array(
+    return [
+      'islandora_book_upload_pdf' => [
         'weight' => 10,
         'type' => 'form',
         'form_id' => 'islandora_paged_content_upload_pdf_form',
-        'args' => array('islandora:pageCModel'),
+        'args' => ['islandora:pageCModel'],
         'module' => 'islandora_paged_content',
         'file' => 'includes/upload_pdf.form.inc',
-      ),
-    );
+      ],
+    ];
   }
 }
 
@@ -333,12 +316,12 @@ function islandora_book_islandora_delete_object_form_delete_pages_submit(array $
   module_load_include('inc', 'islandora', 'includes/utilities');
 
   $object = $form_state['object'];
-  $get_pid = function($o) {
+  $get_pid = function ($o) {
     return $o['pid'];
   };
   $pages = array_values(array_map($get_pid, islandora_paged_content_get_pages($object)));
   $batch_delete = islandora_paged_content_delete_pages_batch($object, $pages);
-  $batch_delete['operations'][] = array('islandora_paged_content_delete_parent_object_operation', array($object->id));
+  $batch_delete['operations'][] = ['islandora_paged_content_delete_parent_object_operation', [$object->id]];
   batch_set($batch_delete);
   $parents = islandora_get_parents_from_rels_ext($object);
   $parent = array_pop($parents);
@@ -359,24 +342,19 @@ function islandora_book_pages_menu(AbstractObject $object) {
   drupal_set_breadcrumb(islandora_get_breadcrumbs($object));
   module_load_include('inc', 'islandora_paged_content', 'includes/utilities');
   $pages = islandora_paged_content_get_pages($object);
-  // @FIXME
-// theme() has been renamed to _theme() and should NEVER be called directly.
-// Calling _theme() directly can alter the expected output and potentially
-// introduce security issues (see https://www.drupal.org/node/2195739). You
-// should use renderable arrays instead.
-//
-//
-// @see https://www.drupal.org/node/2195739
-// return theme('islandora_objects', array('objects' => array_keys($pages)));
+  return [
+    '#theme' => 'islandora_objects',
+    '#objects' => array_kesy($pages),
+  ];
 
 }
 
 /**
  * Implements hook_islandora_update_related_objects_properties().
  */
-function islandora_book_islandora_bookCModel_islandora_update_related_objects_properties($object) {
+function islandora_book_islandora_bookcmodel_islandora_update_related_objects_properties($object) {
   module_load_include('inc', 'islandora_paged_content', 'includes/utilities');
-  $get_pid = function($o) {
+  $get_pid = function ($o) {
     return $o['pid'];
   };
   $pages = array_values(array_map($get_pid, islandora_paged_content_get_pages($object)));
@@ -386,21 +364,21 @@ function islandora_book_islandora_bookCModel_islandora_update_related_objects_pr
 /**
  * Implements hook_islandora_xacml_editor_child_query().
  */
-function islandora_book_islandora_bookCModel_islandora_xacml_editor_child_query(AbstractObject $object) {
+function islandora_book_islandora_bookcmodel_islandora_xacml_editor_child_query(AbstractObject $object) {
   $pages_query = <<<EOQ
 SELECT ?object from <#ri> WHERE
 {
   ?object <fedora-rels-ext:isMemberOf> <info:fedora/{$object->id}>
 }
 EOQ;
-  return array(
-    'book_pages' => array(
+  return [
+    'book_pages' => [
       'type' => 'sparql',
       'query' => $pages_query,
       'description' => t('All pages of this book (existing and new).'),
       'recurse' => TRUE,
-    ),
-  );
+    ],
+  ];
 }
 
 /**
@@ -421,19 +399,10 @@ function islandora_book_islandora_view_print_object($object) {
 //       'title' => $object->label,
 //       'path' => url("islandora/object/{$object->id}/datastream/JPG/view"),
 //     ));
-
-    // @FIXME
-// theme() has been renamed to _theme() and should NEVER be called directly.
-// Calling _theme() directly can alter the expected output and potentially
-// introduce security issues (see https://www.drupal.org/node/2195739). You
-// should use renderable arrays instead.
-//
-//
-// @see https://www.drupal.org/node/2195739
-// return theme('islandora_book_page_img_print', array(
-//       'islandora_content' => $islandora_content,
-//     ));
-
+    return [
+      '#theme' => 'islandora_book_page_img_print',
+      '#islandora_content' => $islandora_content,
+    ];
   }
 }
 
@@ -451,11 +420,11 @@ function islandora_book_islandora_pagecmodel_techmd_islandora_datastream_ingeste
   $ycount = isset($fits_metadata['Jhove']['Y Sampling Frequency'][0]) ? $fits_metadata['Jhove']['Y Sampling Frequency'][0] : '600';
   if ($xcount < 600 || $ycount < 600) {
     $message = t("Ingested image has a sampling frequency of @x by @y per @unit For best results use images of at least 600 by 600 per in.",
-        array(
+        [
           '@x' => $xcount,
           '@y' => $ycount,
           '@unit' => $unit,
-        ));
+        ]);
     drupal_set_message($message, 'warning', FALSE);
   }
 }
@@ -464,14 +433,14 @@ function islandora_book_islandora_pagecmodel_techmd_islandora_datastream_ingeste
  * Implements hook_islandora_paged_content_model_registry().
  */
 function islandora_book_islandora_paged_content_content_model_registry() {
-  return array(
-    'islandora:bookCModel' => array(
-      'parents' => array(
+  return [
+    'islandora:bookCModel' => [
+      'parents' => [
         'islandora:collectionCModel' => 'isMemberOfCollection',
-      ),
-      'children' => array(
-        'islandora:pageCModel' => array(),
-      ),
-    ),
-  );
+      ],
+      'children' => [
+        'islandora:pageCModel' => [],
+      ],
+    ],
+  ];
 }

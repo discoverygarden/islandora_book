@@ -28,7 +28,9 @@ Install as
 
 ## Configuration
 
-Select configuration options for page derivatives, Parent Solr Field, and select a viewer for the book object and page objects in Administration » Islandora » Solution pack configuration (admin/islandora/solution_pack_config/book).
+Select configuration options for page derivatives, Parent Solr Field, and select
+a viewer for the book object and page objects in Configuration » Islandora »
+Solution pack configuration (admin/config/islandora/solution_pack_config/book).
 
 ![Configuration](https://camo.githubusercontent.com/e913af25f82dd8ff640dd11b337f64b5a9dea62f/687474703a2f2f692e696d6775722e636f6d2f3749434a66655a2e706e67)
 
