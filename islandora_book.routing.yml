@@ -5,3 +5,14 @@ islandora_book.admin:
     _form: '\Drupal\islandora_book\Form\Admin'
   requirements:
     _permission: 'administer site configuration'
+islandora_book.pages:
+  path: 'islandora/object/{object}/pages'
+  defaults:
+    _title: 'Pages'
+    _controller: '\Drupal\islandora_book\Controller\DefaultController::pages'
+  options:
+    parameters:
+      object:
+        type: object
+  requirements:
+    _custom_access: '\Drupal\islandora_book\Controller\DefaultController::pagesAccess'

@@ -1,0 +1,4 @@
+islandora_book.pages:
+  route_name: islandora_book.pages
+  title: Pages
+  base_route: islandora.view_object
