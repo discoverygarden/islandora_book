@@ -1,31 +1,30 @@
-<?php
+{#
 /**
  * @file
  * Template file to style output.
  */
-?>
-<?php if(isset($viewer)): ?>
+ #}
+{% if viewer is defined %}
   <div id="book-viewer">
-    <?php print $viewer; ?>
+    {{ viewer }}
   </div>
-<?php endif; ?>
+{% endif %}
 
-<?php if($display_metadata === 1): ?>
+{% if display_metadata == 1 %}
   <div class="islandora-book-metadata">
-    <?php print $description; ?>
-    <?php if($parent_collections): ?>
-  <div>
-    <h2><?php print t('In collections'); ?></h2>
-    <ul>
-      <?php foreach ($parent_collections as $collection): ?>
-        <li><?php // @FIXME
-// l() expects a Url object, created from a route name or external URI.
-// print l($collection->label, "islandora/object/{$collection->id}");
- ?></li>
-      <?php endforeach; ?>
-    </ul>
+    {{ description }}
+    {% if parent_collections %}
+      <div>
+        <h2>{{ 'In collections'|t }}</h2>
+        <ul>
+          {% for collection in parent_collections %}
+            <li>
+              <a href="{{ path('islandora.view_object', {'object' : collection.id}) }}">{{ collection.label }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+    {{ metadata }}
   </div>
-  <?php endif; ?>
-  <?php print $metadata; ?>
-  </div>
-<?php endif; ?>
+{% endif %}
