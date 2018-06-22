@@ -65,7 +65,7 @@ function islandora_book_theme() {
       'file' => 'theme/theme.inc',
     ],
     'islandora_book_page' => [
-      'arguments' => ['object' => NULL],
+      'variables' => ['object' => NULL],
       'file' => 'theme/theme.inc',
     ],
     'islandora_book_page_img_print' => [
