@@ -269,8 +269,8 @@ function islandora_book_islandora_pagecmodel_islandora_derivative() {
 /**
  * Implements hook_form_islandora_object_properties_form_alter().
  */
-function islandora_book_form_islandora_object_properties_form_alter(array &$form, array &$form_state) {
-  $object = $form_state['object'];
+function islandora_book_form_islandora_object_properties_form_alter(array &$form, FormStateInterface $form_state) {
+  $object = $form_state->get('object');
   if (in_array('islandora:bookCModel', $object->models)) {
     $form['delete']['#value'] = t('Delete Book');
   }
@@ -279,8 +279,9 @@ function islandora_book_form_islandora_object_properties_form_alter(array &$form
 /**
  * Implements hook_form_islandora_delete_object_form_alter().
  */
-function islandora_book_form_islandora_delete_object_form_alter(array &$form, array &$form_state) {
-  $object = $form_state['object'];
+function islandora_book_form_islandora_delete_object_form_alter(array &$form, FormStateInterface $form_state) {
+  $object = $form_state->get('object');
+// @FIXME: doesn't kill the submit in d8.
   if (in_array('islandora:bookCModel', $object->models)) {
     $form['description']['#markup'] = t('This will remove the book object and all related page objects. This action cannot be undone.');
     $form['#submit'][] = 'islandora_book_islandora_delete_object_form_delete_pages_submit';
@@ -295,15 +296,15 @@ function islandora_book_form_islandora_delete_object_form_alter(array &$form, ar
  *
  * @param array $form
  *   The Drupal form.
- * @param array $form_state
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
  *   The Drupal form state.
  */
-function islandora_book_islandora_delete_object_form_delete_pages_submit(array $form, array &$form_state) {
+function islandora_book_islandora_delete_object_form_delete_pages_submit(array $form, FormStateInterface $form_state) {
   module_load_include('inc', 'islandora_paged_content', 'includes/batch');
   module_load_include('inc', 'islandora_paged_content', 'includes/utilities');
   module_load_include('inc', 'islandora', 'includes/utilities');
 
-  $object = $form_state['object'];
+  $object = $form_state->get('object');
   $get_pid = function ($o) {
     return $o['pid'];
   };
@@ -313,7 +314,12 @@ function islandora_book_islandora_delete_object_form_delete_pages_submit(array $
   batch_set($batch_delete);
   $parents = islandora_get_parents_from_rels_ext($object);
   $parent = array_pop($parents);
-  $form_state['redirect'] = isset($parent) ? "islandora/object/{$parent->id}" : 'islandora';
+  if ($parent) {
+    $form_state->setRedirect('islandora.view_object', ['object' => $object->id]);
+  }
+  else {
+    $form_state->setRedirect('islandora.view_default_object');
+  }
 }
 
 /**
