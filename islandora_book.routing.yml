@@ -16,3 +16,16 @@ islandora_book.pages:
         type: object
   requirements:
     _custom_access: '\Drupal\islandora_book\Controller\DefaultController::pagesAccess'
+islandora_book.manage_book:
+  path: '/islandora/object/{object}/manage/book'
+  defaults:
+    models: ['islandora:bookCModel']
+    _title: Book
+    _controller: '\Drupal\islandora_paged_content\Controller\DefaultController::managePages'
+  options:
+    _admin_route: TRUE
+    parameters:
+      object:
+        type: object
+  requirements:
+    _custom_access: '\Drupal\islandora_paged_content\Controller\DefaultController::managePagesAccess'

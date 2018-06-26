@@ -9,16 +9,6 @@ use Drupal\Core\Form\FormStateInterface;
 
 function islandora_book_menu() {
 return array(
-    'islandora/object/%islandora_object/manage/book' => array(
-      'title' => 'Book',
-      'type' => MENU_LOCAL_TASK,
-      'page callback' => 'islandora_paged_content_manage_pages_menu',
-      'page arguments' => array(2),
-      'access callback' => 'islandora_paged_content_manage_pages_access_callback',
-      'access arguments' => array(2, array('islandora:bookCModel')),
-      'file path' => drupal_get_path('module', 'islandora_paged_content'),
-      'file' => 'includes/manage_pages.inc',
-    ),
     'islandora/object/%islandora_object/manage/book/ingest' => array(
       'title' => 'Add Page',
       'page callback' => 'islandora_book_ingest_page',
