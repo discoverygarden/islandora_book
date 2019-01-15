@@ -295,7 +295,7 @@ function islandora_book_islandora_delete_object_form_delete_pages_submit(array $
   $parents = islandora_get_parents_from_rels_ext($object);
   $parent = array_pop($parents);
   if ($parent) {
-    $form_state->setRedirect('islandora.view_object', ['object' => $object->id]);
+    $form_state->setRedirect('islandora.view_object', ['object' => $parent->id]);
   }
   else {
     $form_state->setRedirect('islandora.view_default_object');
