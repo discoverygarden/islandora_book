@@ -1,0 +1,5 @@
+islandora_book.ingest_page:
+  route_name: islandora_book.ingest_page
+  title: 'Add Page'
+  appears_on:
+    - islandora_book.manage_book

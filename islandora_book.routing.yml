@@ -29,3 +29,17 @@ islandora_book.manage_book:
         type: object
   requirements:
     _custom_access: '\Drupal\islandora_paged_content\Controller\DefaultController::managePagesAccess'
+islandora_book.ingest_page:
+  path: '/islandora/object/{object}/manage/book/ingest'
+  defaults:
+    perms:
+      - 'ingest fedora objects'
+    _title: 'Add Page'
+    _controller: '\Drupal\islandora_book\Controller\DefaultController::addPage'
+  requirements:
+    _islandora_object_access: 'TRUE'
+  options:
+    _admin_route: TRUE
+    parameters:
+      object:
+        type: object

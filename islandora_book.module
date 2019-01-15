@@ -9,15 +9,6 @@ use Drupal\Core\Form\FormStateInterface;
 
 function islandora_book_menu() {
 return array(
-    'islandora/object/%islandora_object/manage/book/ingest' => array(
-      'title' => 'Add Page',
-      'page callback' => 'islandora_book_ingest_page',
-      'page arguments' => array(2),
-      'type' => MENU_LOCAL_ACTION,
-      'access callback' => 'islandora_object_access',
-      'access arguments' => array(ISLANDORA_INGEST, 2),
-      'file' => 'includes/manage_book.inc',
-    ),
     'islandora/object/%islandora_object/manage/book/ingest_zipped' => array(
       'title' => 'Add Zipped Pages',
       'page callback' => 'islandora_paged_content_ingest_zipped_pages',

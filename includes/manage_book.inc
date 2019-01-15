@@ -20,12 +20,12 @@ use Drupal\Component\Utility\Unicode;
 function islandora_book_ingest_page(AbstractObject $object) {
   $user = \Drupal::currentUser();
   module_load_include('inc', 'islandora', 'includes/breadcrumb');
-  drupal_set_breadcrumb(islandora_get_breadcrumbs($object));
+  //drupal_set_breadcrumb(islandora_get_breadcrumbs($object));
   module_load_include('inc', 'islandora', 'includes/utilities');
   module_load_include('inc', 'islandora', 'includes/ingest.form');
   $tuque = islandora_get_tuque_connection();
   $page = $tuque->repository->constructObject(islandora_get_namespace($object->id));
-  $page->owner = $user->name;
+  $page->owner = $user->getUsername();
   $page->label = 'New Page';
   $page->models = 'islandora:pageCModel';
   // @FIXME
@@ -36,7 +36,7 @@ function islandora_book_ingest_page(AbstractObject $object) {
 // @see https://www.drupal.org/node/2067859
 // drupal_set_title(t('Add page to @book', array('@book' => $object->label)));
 
-  return \Drupal::formBuilder()->getForm('islandora_ingest_form', [
+  return \Drupal::formBuilder()->getForm('Drupal\islandora\Form\IngestForm', [
     'book' => $object,
     'models' => ['islandora:pageCModel'],
     'objects' => [$page],

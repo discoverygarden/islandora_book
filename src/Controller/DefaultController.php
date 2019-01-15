@@ -11,6 +11,14 @@ use Drupal\Core\Access\AccessResult;
 class DefaultController extends ControllerBase {
 
   /**
+   * Add page callback.
+   */
+  public function addPage($object = NULL) {
+    module_load_include('inc', 'islandora_book', 'includes/manage_book');
+    return islandora_book_ingest_page($object);
+  }
+
+  /**
    * Pages display generator.
    */
   public function pages($object = NULL) {
