@@ -5,6 +5,8 @@
  * Theme hooks.
  */
 
+use Drupal\islandora\Authentication\Provider\TokenAuth;
+
 /**
  * Prepares variables for islandora_book_book templates.
  *
@@ -79,20 +81,10 @@ function template_preprocess_islandora_book_page(array &$variables) {
   if (isset($object['JP2']) && islandora_datastream_access(ISLANDORA_VIEW_OBJECTS, $object['JP2'])) {
     // Get token to allow access to XACML protected datastreams.
     // Always use token authentication in case there is a global policy.
-    module_load_include('inc', 'islandora', 'includes/authtokens');
-    $token = islandora_get_object_token($object->id, 'JP2', 2);
-    // @FIXME
-// url() expects a route name or an external URI.
-// $jp2_url = url("islandora/object/{$object->id}/datastream/JP2/view", array(
-//       'absolute' => TRUE,
-//       'query' => array('token' => $token),
-//     ));
-
+    $token = TokenAuth::getObjectToken($object->id, 'JP2', 2);
     $params['token'] = $token;
     $params['pid'] = $object->id;
     $params['dsid'] = 'JP2';
-    // Can be removed after 7.x-1.11 is out the door islandora_deprecated.
-    $params['jp2_url'] = $jp2_url;
   }
 
   $variables['viewer_id'] = islandora_get_viewer_id('islandora_book_page_viewers');
