@@ -11,6 +11,19 @@ use Drupal\Core\Access\AccessResult;
 class DefaultController extends ControllerBase {
 
   /**
+   * Add zipped pages callback.
+   */
+  public function addZippedPages($object = NULL) {
+    module_load_include('inc', 'islandora_paged_content', 'includes/manage_pages');
+    return islandora_paged_content_ingest_zipped_pages(
+      $object,
+      ['tif', 'tiff', 'jpg', 'jpeg', 'jp2'],
+      'islandora:pageCModel',
+      $this->config('islandora_book.settings')->get('islandora_book_ingest_derivatives')
+    );
+  }
+
+  /**
    * Add page callback.
    */
   public function addPage($object = NULL) {

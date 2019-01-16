@@ -43,3 +43,17 @@ islandora_book.ingest_page:
     parameters:
       object:
         type: object
+islandora_book.ingest_zipped_pages:
+  path: '/islandora/object/{object}/manage/book/ingest_zipped'
+  defaults:
+    perms:
+      - 'ingest fedora objects'
+    _title: 'Add Zipped Pages'
+    _controller: '\Drupal\islandora_book\Controller\DefaultController::addZippedPages'
+  requirements:
+    _islandora_object_access: 'TRUE'
+  options:
+    _admin_route: TRUE
+    parameters:
+      object:
+        type: object

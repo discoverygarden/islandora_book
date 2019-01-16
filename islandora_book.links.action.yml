@@ -3,3 +3,8 @@ islandora_book.ingest_page:
   title: 'Add Page'
   appears_on:
     - islandora_book.manage_book
+islandora_book.ingest_zipped_pages:
+  route_name: islandora_book.ingest_zipped_pages
+  title: 'Add Zipped Pages'
+  appears_on:
+    - islandora_book.manage_book
