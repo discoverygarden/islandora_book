@@ -142,11 +142,6 @@ function islandora_book_islandora_pagecmodel_islandora_view_object($object, $pag
  * book on page load.
  */
 function islandora_book_islandora_bookcmodel_islandora_solr_object_result_alter(&$search_results, $query_processor) {
-  $view_types = [
-    "1" => "1up",
-    "2" => "2up",
-    "3" => "thumb",
-  ];
   $field_search = FALSE;
   $fields = preg_split('/OR|AND|NOT/', $query_processor->solrQuery);
   foreach ($fields as $field) {
@@ -333,7 +328,7 @@ function islandora_book_islandora_view_print_object($object) {
     ];
     return [
       '#theme' => 'islandora_book_page_img_print',
-      '#islandora_content' =>Drupal::service('renderer')->render($image),
+      '#islandora_content' => Drupal::service('renderer')->render($image),
     ];
   }
 }
