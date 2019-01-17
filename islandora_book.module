@@ -7,21 +7,6 @@
 
 use Drupal\Core\Form\FormStateInterface;
 
-function islandora_book_menu() {
-return array(
-    'islandora/object/%islandora_object/manage/book_page' => array(
-      'title' => 'Page',
-      'type' => MENU_LOCAL_TASK,
-      'page callback' => 'islandora_paged_content_manage_page_menu',
-      'page arguments' => array(2),
-      'access callback' => 'islandora_paged_content_manage_page_access_callback',
-      'access arguments' => array(2, array('islandora:pageCModel')),
-      'file path' => drupal_get_path('module', 'islandora_paged_content'),
-      'file' => 'includes/manage_page.inc',
-    ),
-  );
-}
-
 /**
  * Implements hook_theme().
  */

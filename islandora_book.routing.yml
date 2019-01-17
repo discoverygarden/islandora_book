@@ -57,3 +57,16 @@ islandora_book.ingest_zipped_pages:
     parameters:
       object:
         type: object
+islandora_book.manage_book_page:
+  path: '/islandora/object/{object}/manage/book_page'
+  defaults:
+    models: ['islandora:pageCModel']
+    _title: Book
+    _controller: '\Drupal\islandora_paged_content\Controller\DefaultController::managePage'
+  options:
+    _admin_route: TRUE
+    parameters:
+      object:
+        type: object
+  requirements:
+    _custom_access: '\Drupal\islandora_paged_content\Controller\DefaultController::managePageAccess'

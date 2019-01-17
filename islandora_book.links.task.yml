@@ -6,3 +6,7 @@ islandora_book.manage_book:
   route_name: islandora_book.manage_book
   title: Book
   parent_id: islandora.manage_overview_object
+islandora_book.manage_book_page:
+  route_name: islandora_book.manage_book_page
+  title: Page
+  parent_id: islandora.manage_overview_object
