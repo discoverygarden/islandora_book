@@ -23,20 +23,13 @@ function islandora_book_ingest_page(AbstractObject $object) {
   $page->owner = $user->getUsername();
   $page->label = 'New Page';
   $page->models = 'islandora:pageCModel';
-  // @FIXME
-// drupal_set_title() has been removed. There are now a few ways to set the title
-// dynamically, depending on the situation.
-//
-//
-// @see https://www.drupal.org/node/2067859
-// drupal_set_title(t('Add page to @book', array('@book' => $object->label)));
 
   return \Drupal::formBuilder()->getForm('Drupal\islandora\Form\IngestForm', [
     'book' => $object,
     'models' => ['islandora:pageCModel'],
     'objects' => [$page],
     'parent' => $object->id,
-  ]);
+  ]) + ['#title' => t('Add page to @book', array('@book' => $object->label))];
 }
 
 /**
