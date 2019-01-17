@@ -29,7 +29,7 @@ function islandora_book_ingest_page(AbstractObject $object) {
     'models' => ['islandora:pageCModel'],
     'objects' => [$page],
     'parent' => $object->id,
-  ]) + ['#title' => t('Add page to @book', array('@book' => $object->label))];
+  ]) + ['#title' => t('Add page to @book', ['@book' => $object->label])];
 }
 
 /**
