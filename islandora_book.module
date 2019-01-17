@@ -5,6 +5,8 @@
  * Defines all the hooks this module implements.
  */
 
+use Drupal\Core\Url;
+
 use Drupal\Core\Form\FormStateInterface;
 
 /**
@@ -324,21 +326,14 @@ EOQ;
 function islandora_book_islandora_view_print_object($object) {
   if (in_array('islandora:pageCModel', $object->models)) {
     // Theme image separately.
-    // @FIXME
-// theme() has been renamed to _theme() and should NEVER be called directly.
-// Calling _theme() directly can alter the expected output and potentially
-// introduce security issues (see https://www.drupal.org/node/2195739). You
-// should use renderable arrays instead.
-//
-//
-// @see https://www.drupal.org/node/2195739
-// $islandora_content = theme('image', array(
-//       'title' => $object->label,
-//       'path' => url("islandora/object/{$object->id}/datastream/JPG/view"),
-//     ));
+    $image = [
+      '#theme' => 'image',
+      '#title' => $object->label,
+      '#uri' => Url::fromRoute('islandora.view_datastream_view', ['object' => $object->id, 'datastream' => 'JPG'])->toString(),
+    ];
     return [
       '#theme' => 'islandora_book_page_img_print',
-      '#islandora_content' => $islandora_content,
+      '#islandora_content' =>Drupal::service('renderer')->render($image),
     ];
   }
 }
