@@ -155,13 +155,7 @@ function islandora_book_islandora_bookcmodel_islandora_solr_object_result_alter(
   }
 
   if ($query_processor->solrQuery != " " && $query_processor->solrQuery && !$field_search) {
-// @FIXME
-// This looks like another module's variable. You'll need to rewrite this call
-// to ensure that it uses the correct configuration object.
-// $ia_view = variable_get('islandora_internet_archive_bookreader_default_page_view', "1");
-
     if ($query_processor->solrQuery != '*:*') {
-      $search_results['object_url_fragment'] = "page/1/mode/{$view_types[$ia_view]}/search/";
       $search_results['object_url_fragment'] .= rawurlencode($query_processor->solrQuery);
     }
   }
