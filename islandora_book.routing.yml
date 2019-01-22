@@ -6,7 +6,7 @@ islandora_book.admin:
   requirements:
     _permission: 'administer site configuration'
 islandora_book.pages:
-  path: 'islandora/object/{object}/pages'
+  path: '/islandora/object/{object}/pages'
   defaults:
     _title: 'Pages'
     _controller: '\Drupal\islandora_book\Controller\DefaultController::pages'
