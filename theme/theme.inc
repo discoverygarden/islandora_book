@@ -12,8 +12,6 @@ use Drupal\islandora\Authentication\Provider\TokenAuth;
 /**
  * Prepares variables for islandora_book_book templates.
  *
- * Default template: islandora-book-book.tpl.php.
- *
  * @param array $variables
  *   An associative array containing:
  *   - object: An AbstractObject for which to generate the display.
@@ -50,8 +48,6 @@ function template_preprocess_islandora_book_book(array &$variables) {
 
 /**
  * Prepares variables for islandora_book_page templates.
- *
- * Default template: islandora-book-page.tpl.php.
  *
  * @param array $variables
  *   An associative array containing:
