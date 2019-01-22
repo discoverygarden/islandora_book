@@ -1,0 +1,72 @@
+islandora_book.admin:
+  path: '/admin/config/islandora/solution_pack_config/book'
+  defaults:
+    _title: 'Book Solution Pack'
+    _form: '\Drupal\islandora_book\Form\Admin'
+  requirements:
+    _permission: 'administer site configuration'
+islandora_book.pages:
+  path: '/islandora/object/{object}/pages'
+  defaults:
+    _title: 'Pages'
+    _controller: '\Drupal\islandora_book\Controller\DefaultController::pages'
+  options:
+    parameters:
+      object:
+        type: object
+  requirements:
+    _custom_access: '\Drupal\islandora_book\Controller\DefaultController::pagesAccess'
+islandora_book.manage_book:
+  path: '/islandora/object/{object}/manage/book'
+  defaults:
+    models: ['islandora:bookCModel']
+    _title: Book
+    _controller: '\Drupal\islandora_paged_content\Controller\DefaultController::managePages'
+  options:
+    _admin_route: TRUE
+    parameters:
+      object:
+        type: object
+  requirements:
+    _custom_access: '\Drupal\islandora_paged_content\Controller\DefaultController::managePagesAccess'
+islandora_book.ingest_page:
+  path: '/islandora/object/{object}/manage/book/ingest'
+  defaults:
+    perms:
+      - 'ingest fedora objects'
+    _title: 'Add Page'
+    _controller: '\Drupal\islandora_book\Controller\DefaultController::addPage'
+  requirements:
+    _islandora_object_access: 'TRUE'
+  options:
+    _admin_route: TRUE
+    parameters:
+      object:
+        type: object
+islandora_book.ingest_zipped_pages:
+  path: '/islandora/object/{object}/manage/book/ingest_zipped'
+  defaults:
+    perms:
+      - 'ingest fedora objects'
+    _title: 'Add Zipped Pages'
+    _controller: '\Drupal\islandora_book\Controller\DefaultController::addZippedPages'
+  requirements:
+    _islandora_object_access: 'TRUE'
+  options:
+    _admin_route: TRUE
+    parameters:
+      object:
+        type: object
+islandora_book.manage_book_page:
+  path: '/islandora/object/{object}/manage/book_page'
+  defaults:
+    models: ['islandora:pageCModel']
+    _title: Book
+    _controller: '\Drupal\islandora_paged_content\Controller\DefaultController::managePage'
+  options:
+    _admin_route: TRUE
+    parameters:
+      object:
+        type: object
+  requirements:
+    _custom_access: '\Drupal\islandora_paged_content\Controller\DefaultController::managePageAccess'

@@ -1,0 +1,21 @@
+{#
+/**
+ * @file
+ * Template file to style output.
+ */
+#}
+{% if book_object_id %}
+  <a href="{{ path('islandora.view_object', {'object' : book_object_id}) }}">{{ 'Return to Book View'|t }}</a>
+{% else %}
+{{ 'Orphaned page (no associated book)'|t }}
+{% endif %}
+
+{% if viewer is defined %}
+  <div id="book-page-viewer">
+    {{ viewer }}
+  </div>
+{% elseif backup_image is defined %}
+  <div id="book-page-image">
+    {{ backup_image }}
+  </div>
+{% endif %}

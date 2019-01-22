@@ -1,0 +1,12 @@
+islandora_book.pages:
+  route_name: islandora_book.pages
+  title: Pages
+  base_route: islandora.view_object
+islandora_book.manage_book:
+  route_name: islandora_book.manage_book
+  title: Book
+  parent_id: islandora.manage_overview_object
+islandora_book.manage_book_page:
+  route_name: islandora_book.manage_book_page
+  title: Page
+  parent_id: islandora.manage_overview_object

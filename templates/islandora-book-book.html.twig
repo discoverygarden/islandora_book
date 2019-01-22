@@ -1,0 +1,30 @@
+{#
+/**
+ * @file
+ * Template file to style output.
+ */
+ #}
+{% if viewer is defined %}
+  <div id="book-viewer">
+    {{ viewer }}
+  </div>
+{% endif %}
+
+{% if display_metadata == 1 %}
+  <div class="islandora-book-metadata">
+    {{ description }}
+    {% if parent_collections %}
+      <div>
+        <h2>{{ 'In collections'|t }}</h2>
+        <ul>
+          {% for collection in parent_collections %}
+            <li>
+              <a href="{{ path('islandora.view_object', {'object' : collection.id}) }}">{{ collection.label }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+    {{ metadata }}
+  </div>
+{% endif %}

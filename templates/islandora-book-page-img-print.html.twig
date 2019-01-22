@@ -1,12 +1,12 @@
-<?php
+{#
 
 /**
  * @file
  * This is the template file for the print view of the page image.
  */
-?>
-<?php if (isset($islandora_content)): ?>
+#}
+{% if islandora_content is defined %}
   <div class="islandora_book_page_image">
-    <?php print $islandora_content; ?>
+    {{ islandora_content }}
   </div>
-<?php endif; ?>
+{% endif %}
