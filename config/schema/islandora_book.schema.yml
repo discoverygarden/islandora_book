@@ -1,5 +1,5 @@
 islandora_book.settings:
-  type: mapping
+  type: config_object
   label: Settings
   mapping:
     islandora_book_ingest_derivatives:
