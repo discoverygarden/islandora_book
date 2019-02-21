@@ -4,6 +4,8 @@ islandora_book.settings:
   mapping:
     islandora_book_ingest_derivatives:
       type: sequence
+      sequence:
+        type: string
     islandora_book_parent_book_solr_field:
       type: string
     islandora_book_metadata_display:
