@@ -46,7 +46,9 @@ class DefaultController extends ControllerBase {
     $permissions = [ISLANDORA_VIEW_OBJECTS];
     $content_models = ['islandora:bookCModel'];
     $perm = islandora_user_access_check($object, $permissions, $content_models);
-    return $perm ? AccessResult::allowed() : AccessResult::forbidden();
+    return AccessResult::allowedIf($perm)
+      ->addCacheableDependency($object)
+      ->cachePerPermissions();
   }
 
 }
