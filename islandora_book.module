@@ -136,29 +136,6 @@ function islandora_book_islandora_pagecmodel_islandora_view_object($object, $pag
 }
 
 /**
- * Implements hook_CMODEL_PID_islandora_solr_object_result_alter().
- *
- * Add page viewing fragment and search term to show all search results within
- * book on page load.
- */
-function islandora_book_islandora_bookcmodel_islandora_solr_object_result_alter(&$search_results, $query_processor) {
-  $field_search = FALSE;
-  $fields = preg_split('/OR|AND|NOT/', $query_processor->solrQuery);
-  foreach ($fields as $field) {
-    if (preg_match('/^(.*):\(.*\)/', $field)) {
-      $field_search = TRUE;
-      break;
-    }
-  }
-
-  if ($query_processor->solrQuery != " " && $query_processor->solrQuery && !$field_search) {
-    if ($query_processor->solrQuery != '*:*') {
-      $search_results['object_url_fragment'] .= rawurlencode($query_processor->solrQuery);
-    }
-  }
-}
-
-/**
  * Implements hook_islandora_ingest_steps().
  */
 function islandora_book_islandora_pagecmodel_islandora_ingest_steps(FormStateInterface $form_state) {
