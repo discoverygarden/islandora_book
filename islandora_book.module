@@ -34,6 +34,7 @@ function islandora_book_theme() {
 function islandora_book_xml_form_builder_form_associations() {
   return [
     'islandora_book_mods_form' => [
+      'self_transform' => 'islandora_cleanup_mods_extended.xsl',
       'content_model' => 'islandora:bookCModel',
       'form_name' => 'Islandora Book MODS Form',
       'dsid' => 'MODS',
