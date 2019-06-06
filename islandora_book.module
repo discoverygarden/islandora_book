@@ -365,10 +365,10 @@ function islandora_book_islandora_solution_pack_child_relationships($cmodels) {
 /**
  * Implements hook_help().
  */
-function islandora_basic_image_help($route) {
+function islandora_book_help($route) {
   switch ($route) {
     // Main help page for the module.
-    case 'help.page.islandora_basic_image':
+    case 'help.page.islandora_book':
       // About section.
       $output = '<h3>' . t('About') . '</h3>';
       $output .= '<p>' . t(
