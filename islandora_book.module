@@ -371,32 +371,20 @@ function islandora_book_help($route) {
     case 'help.page.islandora_book':
       // About section.
       $output = '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t(
-        'The Islandora Book Solution Pack allows users to add and manage
-        Book objects and their Page objects. There are various viewers
-        that can be used for Books and Pages, and the desired viewer can
-        be chosen at www.yoursite.com/admin/config/islandora/solution_pack_config/book.
-        See the <a href=":wiki">Islandora Book Solution Pack wiki*</a>
-        for more information.', [
-          ':wiki' => 'https://wiki.duraspace.org/display/ISLANDORA/Book+Solution+Pack',
-        ]
-      ) .
+      $output .= '<p>' . t('The Islandora Book Solution Pack allows users to add and manage Book objects and their Page objects. There are various viewers that can be used for Books and Pages, and the desired viewer can be chosen at www.yoursite.com/admin/config/islandora/solution_pack_config/book. See the <a href=":wiki">Islandora Book Solution Pack wiki*</a> for more information.', [
+        ':wiki' => 'https://wiki.duraspace.org/display/ISLANDORA/Book+Solution+Pack',
+      ]) .
       '</p>';
       // Uses section.
       $output .= '<h3>' . t('Uses') . '</h3>';
-      $output .= '<dt>' . t('Ingest and Manage Books') . '</dt><dd>' . t(
-        'The "Usage" section of the <a href=":wiki">Islandora Book Solution Pack wiki*</a>
-        has information on creating and managing Book objects.', [
-          ':wiki' => 'https://wiki.duraspace.org/display/ISLANDORA/Book+Solution+Pack',
-        ]
-      ) .
+      $output .= '<dt>' . t('Ingest and Manage Books') . '</dt><dd>';
+      $output .= t('The "Usage" section of the <a href=":wiki">Islandora Book Solution Pack wiki*</a> has information on creating and managing Book objects.', [
+        ':wiki' => 'https://wiki.duraspace.org/display/ISLANDORA/Book+Solution+Pack',
+      ]) .
       '</dd>';
 
-      $output .= '</br></br><p>' .
-        '*Links go to documentation for the Drupal 7 version of the module, as
-        documentation for the Drupal 8 version of the module has not yet been
-        written. There may be some small discrepencies; however, most key points
-        remain useful.' .
+      $output .= '</br></br><p>';
+      $output .= t('*Links go to documentation for the Drupal 7 version of the module, as documentation for the Drupal 8 version of the module has not yet been written. There may be some small discrepencies; however, most key points remain useful.') .
       '</p>';
       return $output;
 
