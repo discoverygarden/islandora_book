@@ -6,7 +6,6 @@
  */
 
 use Drupal\Core\Url;
-use Drupal\Core\Link;
 
 use Drupal\Core\Form\FormStateInterface;
 
@@ -372,8 +371,9 @@ function islandora_book_help($route) {
     case 'help.page.islandora_book':
       // About section.
       $output = '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('The Islandora Book Solution Pack allows users to add and manage Book objects and their Page objects. There are various viewers that can be used for Books and Pages, and the desired viewer can be chosen at ' . Link::fromTextAndUrl('www.yoursite.com/admin/config/islandora/solution_pack_config/book', Url::fromRoute('islandora_book.admin'))->toString() . '. See the <a href=":wiki">Islandora Book Solution Pack wiki*</a> for more information.', [
+      $output .= '<p>' . t('The Islandora Book Solution Pack allows users to add and manage Book objects and their Page objects. There are various viewers that can be used for Books and Pages, and the desired viewer can be chosen at the <a href=":admin">Islandora Book Configuration Page</a> of your website. See the <a href=":wiki">Islandora Book Solution Pack wiki*</a> for more information.', [
         ':wiki' => 'https://wiki.duraspace.org/display/ISLANDORA/Book+Solution+Pack',
+        ':admin' => Url::fromRoute('islandora_book.admin')->toString(),
       ]) .
       '</p>';
       // Uses section.
